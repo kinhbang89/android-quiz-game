@@ -1,7 +1,7 @@
 package fi.metropolia.translatorskeleton.model;
 
 /**
- * Created by Bang on 24/04/16.
+ * Setting model for storing model value
  */
 public class Setting {
     private int length;
@@ -14,22 +14,27 @@ public class Setting {
         this.time_out = time_out;
     }
 
-    private int getLength() {
+    public int getLength() {
         return this.length;
     }
-    private void setLength(int length) {
+
+    public void setLength(int length) {
         this.length = length;
     }
-    private String getType() {
+
+    public String getType() {
         return this.type;
     }
-    private void setType(String type) {
+
+    public void setType(String type) {
         this.type = type;
     }
-    private int getTime_out() {
+
+    public int getTime_out() {
         return this.time_out;
     }
-    private void setTime_out(int time_out) {
+
+    public void setTime_out(int time_out) {
         this.time_out = time_out;
     }
 

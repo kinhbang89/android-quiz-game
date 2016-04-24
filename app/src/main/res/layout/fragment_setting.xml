@@ -55,14 +55,12 @@
                 android:id="@+id/quiz_type_radio_hard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
                 android:text="@string/quiz_type_hard" />
 
             <RadioButton
                 android:id="@+id/quiz_type_radio_random"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
                 android:text="@string/quiz_type_random" />
         </RadioGroup>
     </LinearLayout>

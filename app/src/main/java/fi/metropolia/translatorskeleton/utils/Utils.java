@@ -13,6 +13,7 @@ import fi.metropolia.translatorskeleton.model.Setting;
  */
 public class Utils {
 
+
     public static void saveSettingToSp(Setting s, Context context) {
         String setting_pref_key = context.getResources().getString(R.string.setting_pref_key);
         String setting_key = context.getResources().getString(R.string.setting_key);
@@ -39,7 +40,7 @@ public class Utils {
                 android.content.Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
-        String json = preferences.getString(setting_pref_key, "");
+        String json = preferences.getString(setting_key, "");
         Setting obj = gson.fromJson(json, Setting.class);
         return obj;
     }
