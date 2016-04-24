@@ -6,6 +6,10 @@
     <string name="quiz_type_hard">Hard</string>
 
     <string name="default_timeout">TimeOut</string>
+
+
+    <string name="setting_pref_key">SETTING_KEY_PREF</string>
+    <string name="setting_key">SETTING</string>
     <string-array name="Planets">
 
     </string-array>

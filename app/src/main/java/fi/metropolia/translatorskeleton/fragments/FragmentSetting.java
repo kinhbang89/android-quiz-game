@@ -30,6 +30,8 @@ public class FragmentSetting extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+
+        // set value from quiz_length picker
         np = (NumberPicker) view.findViewById(R.id.quiz_length_picker);
         np.setMaxValue(100);
         np.setMinValue(1);
