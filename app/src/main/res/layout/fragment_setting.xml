@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/quiz_length_ln"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/quiz_length_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_alignBottom="@+id/length_picker"
+            android:text="@string/quiz_length"
+            android:textSize="18dp" />
+
+        <NumberPicker
+            android:id="@+id/quiz_length_picker"
+            android:layout_marginLeft="@dimen/margin_left_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textView1" />
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:id="@+id/quiz_type_ln"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/quiz_length_ln">
+
+        <TextView
+            android:id="@+id/quiz_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="@string/quiz_type_text" />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="@dimen/margin_left_setting"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/quiz_type_radioGroup">
+
+            <RadioButton
+                android:id="@+id/quiz_type_radio_hard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/quiz_type_hard" />
+
+            <RadioButton
+                android:id="@+id/quiz_type_radio_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/quiz_type_random" />
+        </RadioGroup>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quiz_type_ln">
+
+    <TextView
+        android:id="@+id/timeout_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/default_timeout"
+        android:textSize="18dp" />
+
+    <NumberPicker
+        android:id="@+id/timeout_picker"
+        android:layout_toLeftOf="@+id/timeout_tv"
+        android:layout_marginLeft="@dimen/margin_left_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/timeout_tv" />
+
+    </LinearLayout>
+</RelativeLayout>
