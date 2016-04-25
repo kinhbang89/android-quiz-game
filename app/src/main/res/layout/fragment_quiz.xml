@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true">
+
+    <TextView
+        android:text="@string/select_quiz"
+        android:textSize="30dp"
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@android:drawable/bottom_bar"
+        android:paddingLeft="4.0dip"
+        android:paddingTop="5.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingBottom="1.0dip"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView01">
+
+        <Button
+            android:id="@+id/random_btn"
+            android:layout_width="0.0dip" android:layout_height="fill_parent"
+            android:text="@string/quiz_type_random"
+            android:layout_weight="1.0" />
+
+        <Button
+            android:id="@+id/hard_btn"
+            android:layout_width="0.0dip" android:layout_height="fill_parent"
+            android:text="@string/quiz_type_hard"
+            android:layout_weight="1.0" />
+    </LinearLayout>
+
+</RelativeLayout>

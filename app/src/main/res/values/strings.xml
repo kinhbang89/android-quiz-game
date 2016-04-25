@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TranslatorSkeleton</string>
+    <string name="select_quiz">Select type to start</string>
     <string name="quiz_length">Quiz Length</string>
     <string name="quiz_type_text">Quiz Type</string>
     <string name="quiz_type_random">Random</string>
