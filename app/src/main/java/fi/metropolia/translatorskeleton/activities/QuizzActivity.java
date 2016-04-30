@@ -254,7 +254,7 @@ public class QuizzActivity extends AppCompatActivity {
         stopTimer();
     }
 
-    // THREAD TASK FOR GAME TO STOOP T
+    // THREAD TASK FOR GAME TO Stop
     private void setupThreadingTasks() {
         timeOutObserver = new TimeOutObserver() {
             @Override
