@@ -1,32 +1,116 @@
 package fi.metropolia.translatorskeleton.fragments;
 
-import android.support.v4.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import fi.metropolia.translatorskeleton.R;
 
-/**
- * Created by Bang on 19/04/16.
- */
 public class FragmentInput extends Fragment {
+    private  EditText finEditText;
+    private  EditText engEditText;
+    private  Button submitBtn;
+    private String API_URL;
 
     public FragmentInput() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_input, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_input, container, false);
+        finEditText = (EditText)view.findViewById(R.id.input_finnish);
+        engEditText = (EditText)view.findViewById(R.id.input_english);
+        submitBtn = (Button)view.findViewById(R.id.btnSubmit);
+        API_URL = this.getResources().getString(R.string.API_URL);
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    uploadWordToServer();
+                }
+                catch(JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return view;
+    }
+
+    private AlertDialog.Builder alertDialogBuilder(String title,String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        return builder;
+    }
+
+    private void uploadWordToServer() throws JSONException {
+
+        String finWord = finEditText.getText().toString();
+        String enWord = engEditText.getText().toString();
+        JSONObject obj = new JSONObject();
+        obj.put("fin", finWord);
+        obj.put("en", enWord);
+
+
+        if (finWord.length()<2 || enWord.length()<2){
+            AlertDialog alert = alertDialogBuilder("Fail ","Invalid").create();
+            alert.show();
+            return;
+        }
+
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+
+
+        JsonArrayRequest newRequest = new JsonArrayRequest(Request.Method.POST, API_URL + "/word", obj, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.d("upload","success");
+                System.out.println(response.toString());
+                AlertDialog alert = alertDialogBuilder("Success","Updated").create();
+                alert.show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("upload error",error.toString());
+                error.printStackTrace();
+
+                AlertDialog alert = alertDialogBuilder("Fail","Existing or error in updating").create();
+                alert.show();
+            }
+        });
+
+        queue.add(newRequest);
+
+        finEditText.setText("");
+        engEditText.setText("");
     }
 }
-

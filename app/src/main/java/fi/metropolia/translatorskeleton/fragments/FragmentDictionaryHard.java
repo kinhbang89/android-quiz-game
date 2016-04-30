@@ -1,24 +1,33 @@
 package fi.metropolia.translatorskeleton.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
 
 import fi.metropolia.translatorskeleton.R;
+import fi.metropolia.translatorskeleton.model.Dictionary;
+import fi.metropolia.translatorskeleton.utils.CONSTANT;
+import fi.metropolia.translatorskeleton.utils.SharedPrefManager;
 
 /**
  * View showing that word are not yet mastered
  */
 public class FragmentDictionaryHard extends ListFragment  implements OnItemClickListener {
 
+    Dictionary dict;
+    String wordKeys[];
+    ArrayAdapter<String> adapter;
+
+    private String googleTranslateURL ="https://translate.google.com/#en/fi/";
+
     public FragmentDictionaryHard() {
-        // Required empty public constructor
     }
 
 
@@ -35,19 +44,50 @@ public class FragmentDictionaryHard extends ListFragment  implements OnItemClick
 
         super.onActivityCreated(savedInstanceState);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.Planets, android.R.layout.simple_list_item_1);
+        if ( SharedPrefManager
+                .getInstance(this.getContext())
+                .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.EN_TO_FIN_KEY) != null) {
 
-        setListAdapter(adapter);
-        getListView().setOnItemClickListener(this);
+            dict = SharedPrefManager
+                    .getInstance(this.getContext())
+                    .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.EN_TO_FIN_KEY);
+
+            wordKeys = dict
+                    .getKeys()
+                    .toArray(new String[dict.getWordCount()]);
+
+            adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, wordKeys);
+
+            setListAdapter(adapter);
+            getListView().setOnItemClickListener(this);
+        }
+
+
+
 
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        /*if (dict != null) {
+            wordKeys = dict
+                    .getKeys()
+                    .toArray(new String[dict.getWordCount()]);
+            adapter.addAll(wordKeys);
+            adapter.notifyDataSetChanged();
+        }*/
+
+    }
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
 
-        Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT)
-                .show();
+        if ( wordKeys != null) {
+            String wordSearch = wordKeys[position];
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(googleTranslateURL + wordSearch));
+            startActivity(intent);
+        }
 
     }
 }

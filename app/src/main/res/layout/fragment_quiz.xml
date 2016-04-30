@@ -7,8 +7,9 @@
 
     <TextView
         android:text="@string/select_quiz"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:id="@+id/TextView01"
+        android:layout_margin="10dp"
         android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
     <LinearLayout

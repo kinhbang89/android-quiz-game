@@ -8,4 +8,7 @@ public class CONSTANT {
     public static final String HARD = "HARD";
     public static final int DEFAULT_LENGTH = 10;
     public static final int DEFAULT_TIMEOUT = 10;
+
+    public static final String DICTIONARY_PREF = "DICTIONARY_PREF";
+    public static final String EN_TO_FIN_KEY = "EN_TO_FIN";
 }

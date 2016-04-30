@@ -1,4 +1,10 @@
 <resources>
+    <string name="API_URL">https://mysterious-inlet-23105.herokuapp.com/api/v1</string>
+
+    public static final String DICTIONARY_PREF = "dictionary_pref";
+    <string name="DICTIONARY_PREF">DICTIONARY_PREF</string>
+    <string name="EN_TO_FIN_KEY">EN_TO_FIN</string>
+    <string name="FIN_TO_EN_KEY">FIN_TO_EN</string>
     <string name="app_name">TranslatorSkeleton</string>
     <string name="select_quiz">Select type to start</string>
     <string name="quiz_length">Quiz Length</string>

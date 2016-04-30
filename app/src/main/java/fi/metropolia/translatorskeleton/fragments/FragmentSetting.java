@@ -41,9 +41,7 @@ public class FragmentSetting extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
-
         getResources().getString(R.string.setting_pref_key);
-
         if ( Utils.loadSettingFromSp(getContext()) != null ) {
             setting = Utils.loadSettingFromSp(this.getContext());
         } else {
