@@ -37,7 +37,6 @@ public class SharedPrefManager {
     public static <T> T loadFromPref(final Class<T> aClass,String prefName, String key){
         SharedPreferences sharedPref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         T temp = null;
-        System.out.println("weird thing is about" + key);
         if (sharedPref.contains(key)){
             String jsonDict = sharedPref.getString(key, "");
             Gson gson = new Gson();

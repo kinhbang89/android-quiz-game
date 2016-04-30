@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import fi.metropolia.translatorskeleton.R;
 import fi.metropolia.translatorskeleton.utils.Utils;
 
+// input words to the server
 public class FragmentInput extends Fragment {
     private  EditText finEditText;
     private  EditText engEditText;
@@ -73,7 +74,6 @@ public class FragmentInput extends Fragment {
         }
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
-
 
         JsonArrayRequest newRequest = new JsonArrayRequest(Request.Method.POST, API_URL + "/word", obj, new Response.Listener<JSONArray>() {
             @Override

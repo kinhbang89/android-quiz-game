@@ -28,9 +28,7 @@ import fi.metropolia.translatorskeleton.fragments.FragmentInput;
 import fi.metropolia.translatorskeleton.fragments.FragmentQuiz;
 import fi.metropolia.translatorskeleton.fragments.FragmentSetting;
 import fi.metropolia.translatorskeleton.model.Dictionary;
-import fi.metropolia.translatorskeleton.model.MyModelRoot;
-import fi.metropolia.translatorskeleton.model.User;
-import fi.metropolia.translatorskeleton.model.UserData;
+import fi.metropolia.translatorskeleton.utils.Mapper;
 import fi.metropolia.translatorskeleton.utils.SharedPrefManager;
 
 
@@ -54,19 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
         gson = new Gson();
 
-
-
         dictFinEng = new Dictionary("fin","eng");
-
-        //dictController = new DictionaryController(this);
-        //dictController.launch();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
 
         API_URL = this.getResources().getString(R.string.API_URL);
         DICTIONARY_PREF = this.getResources().getString(R.string.DICTIONARY_PREF);
@@ -80,13 +71,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            System.out.println("no response" + response);
                             for (int i = 0; i < response.length(); i++) {
                                 String fin = response.getJSONObject(i).getString("fin");
                                 String en = response.getJSONObject(i).getString("en");
+                                String image_url = response.getJSONObject(i).getString("img_url");
 
                                 dictFinEng
                                         .addPair(fin, en);
+
+                                Mapper.getInstance().getMap().put(fin, image_url);
+
                             }
 
                             if (dictFinEng != null) {
@@ -123,8 +117,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentDictionaryHard(), "Words");
         adapter.addFragment(new FragmentQuiz(), "Quiz");
         adapter.addFragment(new FragmentSetting(), "Setting");
-
-
         viewPager.setAdapter(adapter);
     }
 

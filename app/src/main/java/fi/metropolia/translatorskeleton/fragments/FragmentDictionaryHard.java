@@ -50,7 +50,6 @@ public class FragmentDictionaryHard extends ListFragment  implements OnItemClick
                 .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.FIN_TO_EN_KEY);
 
         if ( dictPref != null) {
-
             dict = SharedPrefManager
                     .getInstance(this.getContext())
                     .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.FIN_TO_EN_KEY);
@@ -81,7 +80,6 @@ public class FragmentDictionaryHard extends ListFragment  implements OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
-
         if ( wordKeys != null) {
             String wordSearch = wordKeys[position];
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(googleTranslateURL + wordSearch));

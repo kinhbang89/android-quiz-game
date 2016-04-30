@@ -13,7 +13,7 @@ import fi.metropolia.translatorskeleton.activities.QuizzActivity;
 import fi.metropolia.translatorskeleton.utils.CONSTANT;
 
 /**
- * Created by Bang on 19/04/16.
+ * Quiz fragment to start the quiz by random or hard
  */
 public class FragmentQuiz extends Fragment {
 

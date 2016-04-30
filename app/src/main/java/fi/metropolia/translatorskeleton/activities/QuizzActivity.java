@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -26,7 +27,11 @@ import fi.metropolia.translatorskeleton.model.Setting;
 import fi.metropolia.translatorskeleton.model.TimeOutObserver;
 import fi.metropolia.translatorskeleton.model.TimeOutQuestion;
 import fi.metropolia.translatorskeleton.model.TrackRecord;
+import fi.metropolia.translatorskeleton.model.User;
+import fi.metropolia.translatorskeleton.model.UserData;
 import fi.metropolia.translatorskeleton.utils.CONSTANT;
+import fi.metropolia.translatorskeleton.utils.FlickrManager;
+import fi.metropolia.translatorskeleton.utils.Mapper;
 import fi.metropolia.translatorskeleton.utils.SharedPrefManager;
 import fi.metropolia.translatorskeleton.utils.Utils;
 
@@ -34,7 +39,7 @@ import fi.metropolia.translatorskeleton.utils.Utils;
  * Created by Bang on 25/04/16.
  */
 
-
+// quiz activity for handling all logic to play quiz
 public class QuizzActivity extends AppCompatActivity {
 
     private int currentScore = 0;
@@ -52,6 +57,7 @@ public class QuizzActivity extends AppCompatActivity {
     private Quiz quizz;
     Dictionary dict;
     private int currentQuizPostion = 0;
+    private ImageView imageView;
 
     private TrackRecord trackRecord;
     private TimeOutQuestion timeOutQuestion;
@@ -61,6 +67,9 @@ public class QuizzActivity extends AppCompatActivity {
     private int quizzLength;
 
     private int timeout;
+    private User user;
+    private UserData userData;
+    private FlickrManager flickrManager;
     TimeoutTask timeOutTask;
 
     private CounterClass countTimer;
@@ -83,9 +92,12 @@ public class QuizzActivity extends AppCompatActivity {
         trackRecord = new TrackRecord();
 
 
+        flickrManager = new FlickrManager(this.getApplicationContext());
+
         questionTv = (TextView) findViewById(R.id.question_textView);
         answerET = (EditText) findViewById(R.id.answer_editText);
         submit_btn = (Button) findViewById(R.id.btnSubmit);
+        imageView = (ImageView) findViewById(R.id.imageView);
         currentScoreTv = (TextView) findViewById(R.id.score);
         timer = (TextView) findViewById(R.id.timers);
 
@@ -98,7 +110,6 @@ public class QuizzActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             System.out.print("random quiz for playing" + e);
         }
-
 
         if (timeout <= 10)
             scoredPoint = 5;
@@ -117,6 +128,9 @@ public class QuizzActivity extends AppCompatActivity {
 
         questionTv.setText(firstQuestion);
 
+        System.out.println("first question"+ firstQuestion);
+        flickrManager.placeImage((String) Mapper.getInstance().getMap().get(firstQuestion), imageView);
+
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,20 +139,19 @@ public class QuizzActivity extends AppCompatActivity {
         });
 
         setupThreadingTasks();
-
-
     }
-    /*
-  * Save current track record to shared pref to reuse later
-  * Save high score to shared pref
-  * Remove observer from timeoutquestion
-  * */
+
     @Override
     protected void onStop() {
         super.onStop();
 
         SharedPrefManager
                 .saveToPref(highScore, CONSTANT.DEFAULT, CONSTANT.HIGH_SCORE_KEY);
+
+        SharedPrefManager
+                .saveToPref(userData, CONSTANT.USER, CONSTANT.USER_KEY);
+
+        System.out.println("new user data" + userData);
 
         timeOutQuestion.removeTimeOutObserver(timeOutObserver);
 
@@ -166,7 +179,19 @@ public class QuizzActivity extends AppCompatActivity {
                 hightScorePref = SharedPrefManager
                 .loadFromPref(Integer.class, CONSTANT.DEFAULT, CONSTANT.HIGH_SCORE_KEY);
 
-
+//        Object
+//                userPref = SharedPrefManager
+//                .loadFromPref(UserData.class, CONSTANT.USER, CONSTANT.USER_KEY);
+//
+//
+//        if (userPref == null) {
+//            // USER data for user
+//            userData = MyModelRoot.getInstance().getUserData();
+//            userData.setUser(new User("Bang"));
+//            userData.addDictionary(CONSTANT.EN_TO_FIN_KEY, dict);
+//        } else {
+//            userData = (UserData) userPref;
+//        }
         if (dictFromPref != null) {
             dict = (Dictionary) dictFromPref;
         }
@@ -187,7 +212,7 @@ public class QuizzActivity extends AppCompatActivity {
             } else {
                 ++currentQuizPostion;
             }
-            handleSuccessfulQuiz(quiz);
+            handleSuccess(quiz);
         } else {
             handleFailQuiz();
         }
@@ -197,7 +222,7 @@ public class QuizzActivity extends AppCompatActivity {
         currentScoreTv.setText("Score: " + Integer.toString(currentScore));
     }
 
-    private void handleSuccessfulQuiz(Quiz quiz) {
+    private void handleSuccess(Quiz quiz) {
         currentScore += scoredPoint;
         QuizItem item = quiz.getItem(currentQuizPostion);
         questionTv.setText(item.getQuestion());
@@ -206,16 +231,18 @@ public class QuizzActivity extends AppCompatActivity {
         if (currentScore > highScore) {
             highScore = currentScore;
         }
-
         // win the game
         if (currentQuizPostion == 0) {
             AlertDialog alert = alertDialogBuilder("Congratz, Current high score: " + highScore, "Restart ?").create();
             alert.show();
             return;
         }
+        String id = Mapper.getInstance().getMap().get(item.getQuestion());
+        flickrManager.placeImage(id, imageView);
 
         restartTasks();
     }
+
     private void stopTimer() {
         // reset timeer here
         timeOutTask.cancel(true);
@@ -245,7 +272,6 @@ public class QuizzActivity extends AppCompatActivity {
         * So that they can execute in parallel
         * */
         timeOutTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, timeOutQuestion);
-
     }
 
     private void restartTasks() {
@@ -267,6 +293,7 @@ public class QuizzActivity extends AppCompatActivity {
         questionTv.setText(initialQuestion);
         answerET.setText("");
         writeScore();
+        flickrManager.placeImage((String) Mapper.getInstance().getMap().get(initialQuestion), imageView);
         restartTasks();
     }
 

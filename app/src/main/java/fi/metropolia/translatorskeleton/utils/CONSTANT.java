@@ -12,7 +12,8 @@ public class CONSTANT {
     public static final String DICTIONARY_PREF = "DICTIONARY_PREF";
     public static final String EN_TO_FIN_KEY = "EN_TO_FIN";
     public static final String FIN_TO_EN_KEY = "FIN_TO_EN";
-
+    public static final String USER = "USER";
+    public static final String USER_KEY = "USER_KEY";
 
     public static final String DEFAULT = "DEFAULT";
     public static final String HIGH_SCORE_KEY = "HIGH_SCORE";
