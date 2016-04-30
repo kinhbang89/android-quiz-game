@@ -14,6 +14,8 @@ public class Setting {
         this.time_out = time_out;
     }
 
+    
+
     public int getLength() {
         return this.length;
     }

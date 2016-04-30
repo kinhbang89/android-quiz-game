@@ -24,6 +24,7 @@ public class FragmentDictionaryHard extends ListFragment  implements OnItemClick
     Dictionary dict;
     String wordKeys[];
     ArrayAdapter<String> adapter;
+    private Object dictPref;
 
     private String googleTranslateURL ="https://translate.google.com/#en/fi/";
 
@@ -44,13 +45,15 @@ public class FragmentDictionaryHard extends ListFragment  implements OnItemClick
 
         super.onActivityCreated(savedInstanceState);
 
-        if ( SharedPrefManager
+        dictPref = SharedPrefManager
                 .getInstance(this.getContext())
-                .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.EN_TO_FIN_KEY) != null) {
+                .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.FIN_TO_EN_KEY);
+
+        if ( dictPref != null) {
 
             dict = SharedPrefManager
                     .getInstance(this.getContext())
-                    .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.EN_TO_FIN_KEY);
+                    .loadFromPref(Dictionary.class, CONSTANT.DICTIONARY_PREF, CONSTANT.FIN_TO_EN_KEY);
 
             wordKeys = dict
                     .getKeys()
@@ -61,10 +64,6 @@ public class FragmentDictionaryHard extends ListFragment  implements OnItemClick
             setListAdapter(adapter);
             getListView().setOnItemClickListener(this);
         }
-
-
-
-
     }
 
     @Override

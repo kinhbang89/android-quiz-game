@@ -7,7 +7,7 @@ package fi.metropolia.translatorskeleton.adapter;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-    import fi.metropolia.translatorskeleton.fragments.FragmentDictionary;
+    import fi.metropolia.translatorskeleton.fragments.FragmentDictionaryHard;
     import fi.metropolia.translatorskeleton.fragments.FragmentInput;
     import fi.metropolia.translatorskeleton.fragments.FragmentQuiz;
     import fi.metropolia.translatorskeleton.fragments.FragmentSetting;
@@ -25,7 +25,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new FragmentInput();
             case 1:
-                return new FragmentDictionary();
+                return new FragmentDictionaryHard();
             case 2:
                 return new FragmentQuiz();
             case 3:

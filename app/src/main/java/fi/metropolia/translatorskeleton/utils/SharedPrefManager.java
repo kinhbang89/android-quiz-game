@@ -19,7 +19,6 @@ public class SharedPrefManager {
     }
 
     public static SharedPrefManager getInstance(Context context){
-        System.out.println("instance here" + instance);
         if (instance == null)
             instance = new SharedPrefManager(context);
         return instance;
@@ -31,8 +30,6 @@ public class SharedPrefManager {
         Gson gson = new Gson();
         String objString = gson.toJson(obj);
         editor.putString(key, objString);
-        System.out.println("string" +key);
-        System.out.println("object" + objString);
 
         editor.commit();
     }

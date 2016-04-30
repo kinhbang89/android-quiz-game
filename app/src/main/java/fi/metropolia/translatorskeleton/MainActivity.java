@@ -54,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         gson = new Gson();
 
-        // USER data for user
-        UserData u = MyModelRoot.getInstance().getUserData();
-        u.setUser(new User("Myself"));
-        u.addDictionary("engfin", engToFin);
 
 
         dictFinEng = new Dictionary("fin","eng");
@@ -84,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
+                            System.out.println("no response" + response);
                             for (int i = 0; i < response.length(); i++) {
                                 String fin = response.getJSONObject(i).getString("fin");
                                 String en = response.getJSONObject(i).getString("en");
@@ -92,11 +89,10 @@ public class MainActivity extends AppCompatActivity {
                                         .addPair(fin, en);
                             }
 
-
-                            if (dictEngFin != null) {
+                            if (dictFinEng != null) {
                                 SharedPrefManager
                                         .getInstance(getActivity())
-                                        .saveToPref(dictEngFin, DICTIONARY_PREF, FIN_TO_EN_KEY);
+                                        .saveToPref(dictFinEng, DICTIONARY_PREF, FIN_TO_EN_KEY);
                             }
 
                             viewPager = (ViewPager) findViewById(R.id.viewpager);

@@ -1,10 +1,8 @@
 package fi.metropolia.translatorskeleton.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fi.metropolia.translatorskeleton.R;
+import fi.metropolia.translatorskeleton.utils.Utils;
 
 public class FragmentInput extends Fragment {
     private  EditText finEditText;
@@ -58,19 +57,6 @@ public class FragmentInput extends Fragment {
         return view;
     }
 
-    private AlertDialog.Builder alertDialogBuilder(String title,String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        return builder;
-    }
-
     private void uploadWordToServer() throws JSONException {
 
         String finWord = finEditText.getText().toString();
@@ -81,7 +67,7 @@ public class FragmentInput extends Fragment {
 
 
         if (finWord.length()<2 || enWord.length()<2){
-            AlertDialog alert = alertDialogBuilder("Fail ","Invalid").create();
+            AlertDialog alert = Utils.alertDialogBuilder("Fail ","Invalid", getContext()).create();
             alert.show();
             return;
         }
@@ -92,18 +78,14 @@ public class FragmentInput extends Fragment {
         JsonArrayRequest newRequest = new JsonArrayRequest(Request.Method.POST, API_URL + "/word", obj, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("upload","success");
-                System.out.println(response.toString());
-                AlertDialog alert = alertDialogBuilder("Success","Updated").create();
+                AlertDialog alert = Utils.alertDialogBuilder("Success","Updated", getContext()).create();
                 alert.show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("upload error",error.toString());
                 error.printStackTrace();
-
-                AlertDialog alert = alertDialogBuilder("Fail","Existing or error in updating").create();
+                AlertDialog alert = Utils.alertDialogBuilder("Fail","Existing or error in updating", getContext()).create();
                 alert.show();
             }
         });

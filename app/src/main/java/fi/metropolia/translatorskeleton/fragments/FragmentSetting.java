@@ -50,7 +50,7 @@ public class FragmentSetting extends Fragment {
 
         // set value from quiz_length picker
         np = (NumberPicker) view.findViewById(R.id.quiz_length_picker);
-        np.setMaxValue(100);
+        np.setMaxValue(15);
         np.setMinValue(1);
         np.setValue(setting.getLength());
 
@@ -67,8 +67,8 @@ public class FragmentSetting extends Fragment {
 
         // set value for timeout picker
         timeout_np = (NumberPicker) view.findViewById(R.id.timeout_picker);
-        timeout_np.setMaxValue(10);
-        timeout_np.setMinValue(1);
+        timeout_np.setMaxValue(60);
+        timeout_np.setMinValue(30);
         timeout_np.setValue(setting.getTime_out());
 
         timeout_np.setOnScrollListener(new NumberPicker.OnScrollListener() {
